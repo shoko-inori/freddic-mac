@@ -1,0 +1,1107 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+    \usepackage{iftex}
+    \ifPDFTeX
+    	\usepackage[T1]{fontenc}
+    	\usepackage{mathpazo}
+    \else
+    	\usepackage{fontspec}
+    \fi
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+    \usepackage[mathletters]{ucs} % Extended unicode (utf-8) support
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics 
+                         % to support a larger range
+    \makeatletter % fix for grffile with XeLaTeX
+    \def\Gread@@xetex#1{%
+      \IfFileExists{"\Gin@base".bb}%
+      {\Gread@eps{\Gin@base.bb}}%
+      {\Gread@@xetex@aux#1}%
+    }
+    \makeatother
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+    
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    
+    
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    \title{Analysis on the Single Family Loan-Level Dataset by Freddie Mac}
+    \author{Chenhao Gong}
+    \date{February 2020}
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\expandafter\def\csname PY@tok@w\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\expandafter\def\csname PY@tok@c\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.74,0.48,0.00}{##1}}}
+\expandafter\def\csname PY@tok@k\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\expandafter\def\csname PY@tok@o\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ow\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@nn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@ne\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.82,0.25,0.23}{##1}}}
+\expandafter\def\csname PY@tok@nv\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@no\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ni\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.60,0.60,0.60}{##1}}}
+\expandafter\def\csname PY@tok@na\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.49,0.56,0.16}{##1}}}
+\expandafter\def\csname PY@tok@nt\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@nd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\expandafter\def\csname PY@tok@s\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sd\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@si\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@se\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sr\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.40,0.53}{##1}}}
+\expandafter\def\csname PY@tok@ss\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sx\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@m\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@gh\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gu\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@gd\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.63,0.00}{##1}}}
+\expandafter\def\csname PY@tok@gr\endcsname{\def\PY@tc##1{\textcolor[rgb]{1.00,0.00,0.00}{##1}}}
+\expandafter\def\csname PY@tok@ge\endcsname{\let\PY@it=\textit}
+\expandafter\def\csname PY@tok@gs\endcsname{\let\PY@bf=\textbf}
+\expandafter\def\csname PY@tok@gp\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\expandafter\def\csname PY@tok@go\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.53,0.53,0.53}{##1}}}
+\expandafter\def\csname PY@tok@gt\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\expandafter\def\csname PY@tok@err\endcsname{\def\PY@bc##1{\setlength{\fboxsep}{0pt}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}
+\expandafter\def\csname PY@tok@kc\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kd\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kn\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@kr\endcsname{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@bp\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\expandafter\def\csname PY@tok@fm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\expandafter\def\csname PY@tok@vc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vg\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@vm\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\expandafter\def\csname PY@tok@sa\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sc\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@dl\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s2\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@sh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@s1\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\expandafter\def\csname PY@tok@mb\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mf\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mh\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mi\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@il\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@mo\endcsname{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\expandafter\def\csname PY@tok@ch\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cm\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cpf\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@c1\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+\expandafter\def\csname PY@tok@cs\endcsname{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.25,0.50,0.50}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb. 
+    \makeatletter
+        \newbox\Wrappedcontinuationbox 
+        \newbox\Wrappedvisiblespacebox 
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}} 
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}} 
+        \newcommand*\Wrappedcontinuationindent {3ex } 
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox} 
+        % Take advantage of the already applied Pygments mark-up to insert 
+        % potential linebreaks for TeX processing. 
+        %        {, <, #, %, $, ' and ": go to next line. 
+        %        _, }, ^, &, >, - and ~: stay at end of broken line. 
+        % Use of \textquotesingle for straight quote. 
+        \newcommand*\Wrappedbreaksatspecials {% 
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}% 
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}% 
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}% 
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}% 
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}% 
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}% 
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}% 
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}% 
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}% 
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}% 
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}% 
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}% 
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}% 
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}% 
+        } 
+        % Some characters . , ; ? ! / are not pygmentized. 
+        % This macro makes them "active" and they will insert potential linebreaks 
+        \newcommand*\Wrappedbreaksatpunct {% 
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}% 
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}% 
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}% 
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}% 
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}% 
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}% 
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}% 
+            \catcode`\.\active
+            \catcode`\,\active 
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active 
+            \lccode`\~`\~ 	
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+        
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active 	
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+    
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        \ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy 
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+In today's North America, mortgage has become a major financial method
+homebuyers employ to afford new homes. From a data scientist's
+perspective, I am interested in the information that the backgrounds of
+mortgage applications can provide us, and also I feel curious about the
+factors that may affect the performance of repayment of a mortgage.
+
+In this analysis study, I was using the November 2019 release of the
+Single Family Loan-Level Dataset from Freddie Mac, a mortgage loaner in
+the United States. The dataset contains the information of the mortgages
+originated from January 1, 1999 through September 30, 2018, with monthly
+loan performance data through March 31, 2019, that were sold to Freddie
+Mac or that back Freddie Mac Participation Certificates (PCs). The
+dataset is divided into two sections: the Origination Dataset and the
+Monthly Performance Dataset. Throughout the analysis, I will be using
+both sets included in the dataset to answer a number of question
+regarded to mortgage origination backgrounds as well as payment
+performances.
+
+This project was inspired by Senso.ai of Toronto. The firm also contributed to the project by introducing me to the dataset. 
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{1}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Import the needed packages}
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+\PY{k+kn}{import} \PY{n+nn}{pandas} \PY{k}{as} \PY{n+nn}{pd}
+\PY{k+kn}{import} \PY{n+nn}{scipy}
+\PY{k+kn}{from} \PY{n+nn}{IPython}\PY{n+nn}{.}\PY{n+nn}{display} \PY{k}{import} \PY{n}{Image}
+\PY{k+kn}{import} \PY{n+nn}{matplotlib}\PY{n+nn}{.}\PY{n+nn}{pyplot} \PY{k}{as} \PY{n+nn}{plt}
+\PY{k+kn}{from} \PY{n+nn}{sklearn}\PY{n+nn}{.}\PY{n+nn}{tree} \PY{k}{import} \PY{n}{DecisionTreeClassifier}\PY{p}{,} \PY{n}{export\PYZus{}graphviz}
+\PY{k+kn}{from} \PY{n+nn}{six} \PY{k}{import} \PY{n}{StringIO}
+\PY{k+kn}{import} \PY{n+nn}{pydotplus}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{analysis-on-the-origination-dataset}{%
+\section{Analysis on the Origination
+Dataset}\label{analysis-on-the-origination-dataset}}
+
+The Origination dataset contains the information of the recorded
+mortgages at Freddie Mac, at the time the mortgage was initialized. It
+represents mainly the general backgrounds of the mortgages, which may
+provide us with (but not limited to) the price and area of the property
+secured by the mortgage, and financial background and history of the
+individual, and the channels that initialized the purchase and the
+mortgage.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{2}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Read the origination samples csv file}
+\PY{n}{origination\PYZus{}data} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{origination\PYZus{}sample.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{first-time-homebuyers}{%
+\subsection{First-time Homebuyers}\label{first-time-homebuyers}}
+
+In the Origination database, the first-time homebuyers are identified by
+a specific flag. In real life, they may be eligible of designated
+policies, offers and/or credits, either from the government or financial
+institutions. From the mortgage provider's perspective, we want to see
+the structure of all homebuyers in the database, and figure out the role
+of first-time homebuyers within other buyers.
+
+On the first rough glimpse, I computed the percentage of first-buyers
+among all buyers of all times as presented in the database.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Percentage of first time homebuyers}
+\PY{n}{first\PYZus{}time\PYZus{}data} \PY{o}{=} \PY{n}{origination\PYZus{}data}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{first\PYZus{}time\PYZus{}homebuyer\PYZus{}flag}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{first\PYZus{}buyer} \PY{o}{=} \PY{n}{first\PYZus{}time\PYZus{}data}\PY{o}{.}\PY{n}{size}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Y}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+\PY{n}{non\PYZus{}first\PYZus{}buyer} \PY{o}{=} \PY{n}{first\PYZus{}time\PYZus{}data}\PY{o}{.}\PY{n}{size}\PY{p}{(}\PY{p}{)}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{N}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+\PY{n}{first\PYZus{}buyer} \PY{o}{/} \PY{p}{(}\PY{n}{first\PYZus{}buyer} \PY{o}{+} \PY{n}{non\PYZus{}first\PYZus{}buyer}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{3}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0.16807615740394258
+\end{Verbatim}
+\end{tcolorbox}
+        
+    As the computation above suggests, it turns out that 16.8076\% of all
+homebuyers are categorized as first-time homebuyers at all times
+according to the provided database.
+
+To further analyse the number, portion and role of first-time
+homebuyers, I made further computations to find the relationship between
+portion of first-time homebuyers and the month, while comparing this
+relationship to that between the number of all homebuyers and the month.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Percentage of first time homebuyers in each month}
+\PY{n}{new\PYZus{}origination\PYZus{}data} \PY{o}{=} \PY{n}{origination\PYZus{}data}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+\PY{n}{new\PYZus{}origination\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{month}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{origination\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{first\PYZus{}payment\PYZus{}date}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{\PYZpc{}} \PY{l+m+mi}{100}
+\PY{n}{month\PYZus{}firsthome\PYZus{}data} \PY{o}{=} \PY{n}{new\PYZus{}origination\PYZus{}data}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{month}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{first\PYZus{}time\PYZus{}homebuyer\PYZus{}flag}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{]}
+\PY{n}{month\PYZus{}firsthome\PYZus{}data} \PY{o}{=} \PY{n}{month\PYZus{}firsthome\PYZus{}data}\PY{p}{[}\PY{n}{month\PYZus{}firsthome\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{first\PYZus{}time\PYZus{}homebuyer\PYZus{}flag}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{!=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{9}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+
+\PY{n}{month\PYZus{}firsthome\PYZus{}count} \PY{o}{=} \PY{n}{month\PYZus{}firsthome\PYZus{}data}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}
+    \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{month}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{first\PYZus{}time\PYZus{}homebuyer\PYZus{}flag}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+\PY{p}{)}\PY{o}{.}\PY{n}{size}\PY{p}{(}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Compute ft\PYZus{}monthly\PYZus{}percentage}
+
+\PY{n}{ft\PYZus{}monthly\PYZus{}percentage} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{nan}\PY{p}{]} \PY{o}{*} \PY{l+m+mi}{12}\PY{p}{)}
+\PY{n}{total\PYZus{}array} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{nan}\PY{p}{]} \PY{o}{*} \PY{l+m+mi}{12}\PY{p}{)}
+
+\PY{n}{total\PYZus{}first\PYZus{}time} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{n}{np}\PY{o}{.}\PY{n}{nan}\PY{p}{]} \PY{o}{*} \PY{l+m+mi}{12}\PY{p}{)}
+
+\PY{k}{for} \PY{n}{month} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{13}\PY{p}{)}\PY{p}{:} 
+    \PY{n}{first\PYZus{}buyer} \PY{o}{=} \PY{n}{month\PYZus{}firsthome\PYZus{}count}\PY{p}{[}\PY{n}{month}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Y}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+    \PY{n}{non\PYZus{}first\PYZus{}buyer} \PY{o}{=} \PY{n}{month\PYZus{}firsthome\PYZus{}count}\PY{p}{[}\PY{n}{month}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{N}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+    \PY{n}{total\PYZus{}array}\PY{p}{[}\PY{n}{month} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{first\PYZus{}buyer} \PY{o}{+} \PY{n}{non\PYZus{}first\PYZus{}buyer}
+    \PY{n}{ft\PYZus{}monthly\PYZus{}percentage}\PY{p}{[}\PY{n}{month} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{first\PYZus{}buyer} \PY{o}{/} \PY{n}{total\PYZus{}array}\PY{p}{[}\PY{n}{month} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{p}{]}
+    \PY{n}{total\PYZus{}first\PYZus{}time}\PY{p}{[}\PY{n}{month} \PY{o}{\PYZhy{}} \PY{l+m+mi}{1}\PY{p}{]} \PY{o}{=} \PY{n}{first\PYZus{}buyer}
+
+\PY{c+c1}{\PYZsh{} Compute ft\PYZus{}annual\PYZus{}percentage }
+\PY{n}{ft\PYZus{}annual\PYZus{}percentage} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}
+    \PY{p}{[}\PY{n}{month} \PY{o}{/} \PY{n+nb}{sum}\PY{p}{(}\PY{n}{total\PYZus{}first\PYZus{}time}\PY{p}{)} \PY{k}{for} \PY{n}{month} \PY{o+ow}{in} \PY{n}{total\PYZus{}first\PYZus{}time}\PY{p}{]}
+\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Compute homebuyer\PYZus{}percentage}
+\PY{n}{homebuyer\PYZus{}percentage} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}
+    \PY{p}{[}\PY{n}{month} \PY{o}{/} \PY{n+nb}{sum}\PY{p}{(}\PY{n}{total\PYZus{}array}\PY{p}{)} \PY{k}{for} \PY{n}{month} \PY{o+ow}{in} \PY{n}{total\PYZus{}array}\PY{p}{]}
+\PY{p}{)}
+
+\PY{n}{percentage\PYZus{}table} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{p}{\PYZob{}}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{month}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{p}{[}\PY{n}{month} \PY{k}{for} \PY{n}{month} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{13}\PY{p}{)}\PY{p}{]}\PY{p}{,} 
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{total\PYZus{}first\PYZus{}time}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{total\PYZus{}first\PYZus{}time}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{total\PYZus{}buyers}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{total\PYZus{}array}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ft\PYZus{}monthly\PYZus{}percentage}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{ft\PYZus{}monthly\PYZus{}percentage}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ft\PYZus{}annual\PYZus{}percentage}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{ft\PYZus{}annual\PYZus{}percentage}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{homebuyer\PYZus{}percentage}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{n}{homebuyer\PYZus{}percentage}\PY{p}{,}
+\PY{p}{\PYZcb{}}\PY{p}{)}
+\PY{n}{percentage\PYZus{}table}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{4}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+    month  total\_first\_time  total\_buyers  ft\_monthly\_percentage  \textbackslash{}
+0       1             849.0        5066.0               0.167588
+1       2             862.0        4811.0               0.179173
+2       3             579.0        4457.0               0.129908
+3       4             702.0        5086.0               0.138026
+4       5             812.0        5895.0               0.137744
+5       6            1000.0        5922.0               0.168862
+6       7            1095.0        6085.0               0.179951
+7       8            1228.0        6463.0               0.190005
+8       9            1148.0        6169.0               0.186092
+9      10            1069.0        5824.0               0.183551
+10     11             969.0        5407.0               0.179212
+11     12             916.0        5624.0               0.162873
+
+    ft\_annual\_percentage  homebuyer\_percentage
+0               0.075608              0.075828
+1               0.076766              0.072011
+2               0.051563              0.066713
+3               0.062517              0.076127
+4               0.072313              0.088237
+5               0.089055              0.088641
+6               0.097515              0.091081
+7               0.109360              0.096738
+8               0.102235              0.092338
+9               0.095200              0.087174
+10              0.086294              0.080932
+11              0.081574              0.084180
+\end{Verbatim}
+\end{tcolorbox}
+        
+    In the data frame above, I listed the numbers of first-time homebuyers
+and all homebuyers occurring in each of the 12 months. With the data, I
+computed for each month:
+
+\begin{itemize}
+\tightlist
+\item
+  \texttt{ft\_monthly\_percentage}, the percentage of first-time
+  homebuyers among all homebuyers within the month,
+\item
+  \texttt{ft\_annual\_percentage}, the percentage of first-time
+  homebuyers occuring in the particular month among all first-time
+  homebuyers recorded in the dataset, and
+\item
+  \texttt{homebuyer\_percentage}, the percentage of homebuyers
+  (including both first-time and non-first-time ones) occuring in the
+  particular month among all homebuyers recorded in the dataset
+\end{itemize}
+
+To benefit the interpretation of the computed percentages, I visualized
+them in a scatterplot, as shown below:
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{5}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Plot between first\PYZus{}time\PYZus{}homebuyer\PYZus{}percentage and percentage\PYZus{}annual}
+\PY{n}{month\PYZus{}array} \PY{o}{=} \PY{p}{[}\PY{n}{month} \PY{k}{for} \PY{n}{month} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{13}\PY{p}{)}\PY{p}{]}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{month\PYZus{}array}\PY{p}{,} \PY{n}{ft\PYZus{}monthly\PYZus{}percentage}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{g*}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ft\PYZus{}monthly\PYZus{}percentage}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{month\PYZus{}array}\PY{p}{,} \PY{n}{ft\PYZus{}annual\PYZus{}percentage}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{rs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{ft\PYZus{}annual\PYZus{}percentage}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{plot}\PY{p}{(}\PY{n}{month\PYZus{}array}\PY{p}{,} \PY{n}{homebuyer\PYZus{}percentage}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{bs}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{label}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{homebuyer\PYZus{}percentage}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+
+\PY{n}{plt}\PY{o}{.}\PY{n}{legend}\PY{p}{(}\PY{n}{bbox\PYZus{}to\PYZus{}anchor}\PY{o}{=}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{)}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{report_files/report_9_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    From the data, we may find that the peak for first-time homebuyers
+within a year is August, while the minimum is observed in March. These
+also matches the observations for general homebuyers. However, the
+internal monthly distribution also tends to find the same pattern. Hence
+we may conclude that while all homebuyers perfer summer and fall seasons
+for home purchases than winter and spring, the tendency appears to be
+more obvious and dramatic for first-time homebuyers.
+
+A possible interpretation of the observation to the real life may be
+that the period from late spring to summer (May to June) sees the climb
+of home purchases, and thus becomes preferably the best season of the
+year for real estate related businesses to attract new homebuyers that
+will likely make their first home purchase.
+
+    \hypertarget{metropolitan-statistical-areas-msa-with-high-original-unpaid-pricipal-balances-upb}{%
+\subsection{Metropolitan Statistical Areas (MSA) with High Original
+Unpaid Pricipal Balances
+(UPB)}\label{metropolitan-statistical-areas-msa-with-high-original-unpaid-pricipal-balances-upb}}
+
+As the dataset represents mortgage records in the United States, the
+geographical locations are designated to Metropolitan Statistical Areas
+(MSA) defined by the United States Office of Management and Budget
+(OMB).
+
+In this part, we will look into the 10 MSA's which have the highest
+median original Unpaid Principal Balance (UPB) upon the opening of the
+mortgage, and attempt to find explain the nature of their high pricipal
+balances.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} MSA\PYZsq{}s with the highest median original unpaid principal balance}
+\PY{n}{new\PYZus{}origination\PYZus{}data2} \PY{o}{=} \PY{n}{origination\PYZus{}data}\PY{o}{.}\PY{n}{copy}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{msa\PYZus{}upb\PYZus{}data} \PY{o}{=} \PY{n}{new\PYZus{}origination\PYZus{}data2}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{msa}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{original\PYZus{}upb}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{original\PYZus{}ltv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{]}
+\PY{n}{upb\PYZus{}data} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}
+    \PY{n}{msa\PYZus{}upb\PYZus{}data}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{msa}\PY{l+s+s1}{\PYZsq{}}\PY{p}{)}\PY{o}{.}\PY{n}{median}\PY{p}{(}\PY{p}{)}
+\PY{p}{)}
+\PY{n}{highest\PYZus{}upb} \PY{o}{=} \PY{n}{upb\PYZus{}data}\PY{o}{.}\PY{n}{sort\PYZus{}values}\PY{p}{(}\PY{n}{by}\PY{o}{=}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{original\PYZus{}upb}\PY{l+s+s1}{\PYZsq{}}\PY{p}{,} \PY{n}{ascending}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}\PY{o}{.}\PY{n}{head}\PY{p}{(}\PY{n}{n}\PY{o}{=}\PY{l+m+mi}{10}\PY{p}{)}
+
+\PY{n}{highest\PYZus{}upb}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{original\PYZus{}ltv\PYZus{}percentile}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}
+    \PY{p}{[}\PY{n}{scipy}\PY{o}{.}\PY{n}{stats}\PY{o}{.}\PY{n}{percentileofscore}\PY{p}{(}\PY{n}{msa\PYZus{}upb\PYZus{}data}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{original\PYZus{}ltv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{n}{ltv}\PY{p}{)} 
+     \PY{k}{for} \PY{n}{ltv} \PY{o+ow}{in} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{highest\PYZus{}upb}\PY{p}{[}\PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{original\PYZus{}ltv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{)}
+    \PY{p}{]}
+\PY{p}{)}
+    
+\PY{n}{highest\PYZus{}upb}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{6}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+         original\_upb  original\_ltv  original\_ltv\_percentile
+msa
+42034.0      414000.0          59.0                20.636676
+11244.0      364000.0          65.0                27.771634
+27980.0      347000.0          54.0                15.795062
+42200.0      338000.0          57.0                18.634464
+41884.0      330000.0          50.0                12.425749
+41940.0      324000.0          55.0                16.709073
+46520.0      316000.0          66.0                29.159286
+43524.0      288000.0          72.5                40.033468
+36084.0      285000.0          64.0                26.400129
+42100.0      282000.0          55.5                17.156781
+\end{Verbatim}
+\end{tcolorbox}
+        
+    The data frame above shows the codes for the 10 MSA's with the highest
+original UPB's, as well as the UPB's exact values. However, the reason
+that could lead to the high UPB's in these areas is not determined.
+
+There are two possible assumption to explain the high original UPB
+values: it is possible that the price of homes in these areas are higher
+and the buyers are generally richer, but it is also possible that the
+high ratio of debt for buyers in these regions lead to the high
+balances. To determine the true nature, we will be interested in the the
+original Loan-To-Value (LTV) included in the dataset, which expresses
+the ratio of the mortgaged portion versus the total value of the
+property to be purchased.
+
+In the data frame above, I included the original LTV values for each of
+the 10 MSA's, as well as their percentile of the original LTV values of
+all MSA's that appeared in the dataset.
+
+For the information, below computes the quartiles of original LTV's for
+all MSA's appeared in the dataset and shows the data in a data frame.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{ltv\PYZus{}quartiles} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}
+    \PY{n}{np}\PY{o}{.}\PY{n}{quantile}\PY{p}{(}\PY{n}{msa\PYZus{}upb\PYZus{}data}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+s+s1}{\PYZsq{}}\PY{l+s+s1}{original\PYZus{}ltv}\PY{l+s+s1}{\PYZsq{}}\PY{p}{]}\PY{p}{,} \PY{p}{[}\PY{l+m+mf}{0.25}\PY{p}{,} \PY{l+m+mf}{0.5}\PY{p}{,} \PY{l+m+mf}{0.75}\PY{p}{]}\PY{p}{)}\PY{o}{.}\PY{n}{reshape}\PY{p}{(}\PY{p}{(}\PY{l+m+mi}{1}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{)}\PY{p}{)}
+\PY{p}{)}
+\PY{n}{ltv\PYZus{}quartiles} \PY{o}{=} \PY{n}{ltv\PYZus{}quartiles}\PY{o}{.}\PY{n}{rename}\PY{p}{(}
+    \PY{n}{index}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+m+mi}{0}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{original\PYZus{}ltv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{,} 
+    \PY{n}{columns}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+m+mi}{0}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{first\PYZus{}quartile}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{third\PYZus{}quartile}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}
+\PY{p}{)}
+\PY{n}{ltv\PYZus{}quartiles}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+              first\_quartile  median  third\_quartile
+original\_ltv            63.0    76.0            80.0
+\end{Verbatim}
+\end{tcolorbox}
+        
+    We can observe that out of the 10 MSA's with the highest original UPB
+values, all of them see an original LTV value significantly lower than
+the global median, while 9 out of them are near or below the first
+quartile. Meanwhile, all of them see a low percentile in the global LTV
+values for all MSA's.
+
+The observations favor the first assumption of the two we raised earlier
+in this part, indicating that the homes in these areas are generally
+higher, and the homebuyers making the purchases are generally richer and
+possess more solid financial background. In real practice, one can
+convince that the homebuyers purchasing properties in these areas may be
+eligible to better rates and/or offers, amd may also have less risk to
+default a mortgage.
+
+    \hypertarget{distribution-of-channel}{%
+\subsection{Distribution of Channel}\label{distribution-of-channel}}
+
+In the provided dataset, ``channel'' refers to the origin of the home
+purchase. The channel of a origination record, if provided and specified
+in the dataset, can be any of a broker, a correspondent, or a retail. In
+this part of the analysis, I want to find the structure of the
+distribution of the channels, and to find the most popular way
+homebuyers tend to purchase a new home.
+
+In the computations below, I categorized all records provided in the
+dataset, and included the number of occurrances of each of the channel
+options, as well as their proportion in the distribution, in a data
+frame.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} The distribution of the channel originations in the last 3 years}
+\PY{n}{recent\PYZus{}origination\PYZus{}data} \PY{o}{=} \PY{n}{origination\PYZus{}data}\PY{p}{[}\PY{n}{origination\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{first\PYZus{}payment\PYZus{}date}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{/}\PY{o}{/} \PY{l+m+mi}{100} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{l+m+mi}{2017}\PY{p}{]}
+\PY{n}{recent\PYZus{}channel\PYZus{}dist} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}\PY{n}{recent\PYZus{}origination\PYZus{}data}\PY{o}{.}\PY{n}{groupby}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{channel}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{o}{.}\PY{n}{size}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\PY{n}{recent\PYZus{}channel\PYZus{}dist} \PY{o}{=} \PY{n}{recent\PYZus{}channel\PYZus{}dist}\PY{o}{.}\PY{n}{rename}\PY{p}{(}\PY{n}{columns}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+m+mi}{0}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{number}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{)}
+\PY{n}{recent\PYZus{}channel\PYZus{}dist} \PY{o}{=} \PY{n}{recent\PYZus{}channel\PYZus{}dist}\PY{o}{.}\PY{n}{rename}\PY{p}{(}\PY{n}{index}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{B}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Broker}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{C}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Correspondent}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{R}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Retail}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{)}
+\PY{n}{recent\PYZus{}channel\PYZus{}dist}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{proportion}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{recent\PYZus{}channel\PYZus{}dist}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{number}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{/} \PY{n+nb}{sum}\PY{p}{(}\PY{n}{recent\PYZus{}channel\PYZus{}dist}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{number}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{)}
+\PY{n}{recent\PYZus{}channel\PYZus{}dist}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{8}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+               number  proportion
+channel
+Broker            570    0.095063
+Correspondent    1941    0.323716
+Retail           3485    0.581221
+\end{Verbatim}
+\end{tcolorbox}
+        
+    For a more direct visualization of the distribution, below is a pie
+chart constructed from the data frame above.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{9}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} The pie chart showing the distribution}
+\PY{n}{labels} \PY{o}{=} \PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Broker}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Correspondent}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Retail}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+\PY{n}{fig1}\PY{p}{,} \PY{n}{ax1} \PY{o}{=} \PY{n}{plt}\PY{o}{.}\PY{n}{subplots}\PY{p}{(}\PY{p}{)}
+\PY{n}{ax1}\PY{o}{.}\PY{n}{pie}\PY{p}{(}\PY{n}{recent\PYZus{}channel\PYZus{}dist}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{number}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{,} \PY{n}{labels}\PY{o}{=}\PY{n}{labels}\PY{p}{,} \PY{n}{shadow}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} \PY{n}{startangle}\PY{o}{=}\PY{l+m+mi}{90}\PY{p}{)}
+\PY{n}{ax1}\PY{o}{.}\PY{n}{axis}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{equal}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{tight\PYZus{}layout}\PY{p}{(}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{report_files/report_19_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    It is very obvious that retail initializes the majority of the home
+purchases, while correspondents are also the origin of more than a
+quarter of the purchases, according to the dataset from Freddie Mac.
+Broker, however, only brings up less than 10\% of the purchases, making
+it a minority in the origination channel distribution.
+
+    \hypertarget{analysis-on-the-monthly-performance-dataset}{%
+\section{Analysis on the Monthly Performance
+Dataset}\label{analysis-on-the-monthly-performance-dataset}}
+
+The Monthly Performance dataset represents the performance of the
+mortgages being repaid after it has been initialized, on a montly basis.
+It contains the information including the balance, age, modification
+history, payment history and delinquency status. By interpreting the
+dataset, we may be able to analyse the factors of solid performance on
+payments, as well as to figure out the reasons of delinquency occurring
+in mortgages.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{10}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Read the monthly performance csv file}
+\PY{n}{monthly\PYZus{}performance\PYZus{}data} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{read\PYZus{}csv}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{update\PYZus{}sample.csv}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{n}{low\PYZus{}memory}\PY{o}{=}\PY{k+kc}{False}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \hypertarget{loan-age-distribution-in-years-2014-to-2019}{%
+\subsection{Loan Age Distribution in Years 2014 to
+2019}\label{loan-age-distribution-in-years-2014-to-2019}}
+
+In this part, I wish to see the distribution of the loan ages between
+the years 2014 and 2019. Below shows the steps I took to compute this
+distribution, as well as to visualize it using a histogram.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{11}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Distribution of loan ages between 2014 and 2019}
+\PY{n}{recent\PYZus{}performance\PYZus{}data} \PY{o}{=} \PY{n}{monthly\PYZus{}performance\PYZus{}data}\PY{o}{.}\PY{n}{loc}\PY{p}{[}
+    \PY{p}{(}\PY{n}{monthly\PYZus{}performance\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{monthly\PYZus{}reporting\PYZus{}period}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{/}\PY{o}{/} \PY{l+m+mi}{100} \PY{o}{\PYZgt{}}\PY{o}{=} \PY{l+m+mi}{2014}\PY{p}{)} 
+    \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{monthly\PYZus{}performance\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{monthly\PYZus{}reporting\PYZus{}period}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{/}\PY{o}{/} \PY{l+m+mi}{100} \PY{o}{\PYZlt{}}\PY{o}{=} \PY{l+m+mi}{2019}\PY{p}{)}
+\PY{p}{]}
+\PY{n}{recent\PYZus{}loan\PYZus{}age} \PY{o}{=} \PY{n}{recent\PYZus{}performance\PYZus{}data}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{loan\PYZus{}age}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+\PY{n}{plt}\PY{o}{.}\PY{n}{hist}\PY{p}{(}\PY{n}{recent\PYZus{}loan\PYZus{}age}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{xlabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{loan\PYZus{}age}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{ylabel}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{count}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{title}\PY{p}{(}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Distribution of loan\PYZus{}age between 2014 and 2019}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{plt}\PY{o}{.}\PY{n}{show}\PY{p}{(}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{report_files/report_24_0.png}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+    By observing the histogram above, we can see a very obvious
+\textbf{survival distribution} in the loan ages in the specified 6
+years. The reason for it is the cumulative records for each of the
+mortgages: the same mortgage will make a record each month it is in
+effect, with the age incremented by a month. Over the years, old
+mortgages with high loan ages are paid off or terminated, while new
+mortgages appear in the dataset starting with a clean history (loan age
+being 0). The fact contributes to the survival distribution as we see in
+the histogram, with less records surviving in the record as the age
+increases.
+
+    \hypertarget{mortgage-fulfillment-in-2016}{%
+\subsection{Mortgage Fulfillment in
+2016}\label{mortgage-fulfillment-in-2016}}
+
+At the time a mortgage is fulfilled (either by prepayment or charging
+off), it is indicated on the specific record in the Monthly Performance
+dataset. In specific, it will have a Zero Balance code of 1 representing
+the very case of successful fulfillment of the mortgage.
+
+In this part, I picked the year 2016 as an example, and computed the
+range, as well as then mean and median, of the loan age, months to
+maturity and current interest rate of the mortgages that are
+successfully fulfilled in the year.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Making a table of the requested values of mortgages with zero\PYZhy{}balance code}
+\PY{n}{sixteen\PYZus{}performance\PYZus{}data} \PY{o}{=} \PY{n}{monthly\PYZus{}performance\PYZus{}data}\PY{o}{.}\PY{n}{loc}\PY{p}{[}
+    \PY{p}{(}\PY{n}{monthly\PYZus{}performance\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{monthly\PYZus{}reporting\PYZus{}period}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{/}\PY{o}{/} \PY{l+m+mi}{100} \PY{o}{==} \PY{l+m+mi}{2016}\PY{p}{)}
+    \PY{o}{\PYZam{}} \PY{p}{(}\PY{n}{monthly\PYZus{}performance\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{zero\PYZus{}balance\PYZus{}code}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{==} \PY{l+m+mi}{1}\PY{p}{)}
+\PY{p}{]}
+\PY{n}{sixteen\PYZus{}performance\PYZus{}output} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{DataFrame}\PY{p}{(}
+    \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{p}{[}\PY{p}{[}\PY{l+m+mi}{0}\PY{p}{]} \PY{o}{*} \PY{l+m+mi}{4}\PY{p}{]} \PY{o}{*} \PY{l+m+mi}{3}\PY{p}{)}
+\PY{p}{)}
+\PY{n}{sixteen\PYZus{}performance\PYZus{}output} \PY{o}{=} \PY{n}{sixteen\PYZus{}performance\PYZus{}output}\PY{o}{.}\PY{n}{rename}\PY{p}{(}
+    \PY{n}{index}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+m+mi}{0}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{loan\PYZus{}age}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{months\PYZus{}to\PYZus{}maturity}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{current\PYZus{}interest\PYZus{}rate}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}\PY{p}{,} 
+    \PY{n}{columns}\PY{o}{=}\PY{p}{\PYZob{}}\PY{l+m+mi}{0}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+m+mi}{1}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{min}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+m+mi}{2}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} \PY{l+m+mi}{3}\PY{p}{:} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{max}\PY{l+s+s2}{\PYZdq{}}\PY{p}{\PYZcb{}}
+\PY{p}{)}
+
+\PY{n}{sixteen\PYZus{}performance\PYZus{}output}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{loan\PYZus{}age}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{sixteen\PYZus{}performance\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{loan\PYZus{}age}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n}{sixteen\PYZus{}performance\PYZus{}output}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{min}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{loan\PYZus{}age}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{sixteen\PYZus{}performance\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{loan\PYZus{}age}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)}
+\PY{n}{sixteen\PYZus{}performance\PYZus{}output}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{loan\PYZus{}age}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{sixteen\PYZus{}performance\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{loan\PYZus{}age}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{median}\PY{p}{(}\PY{p}{)}
+\PY{n}{sixteen\PYZus{}performance\PYZus{}output}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{max}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{loan\PYZus{}age}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{=} \PY{n}{sixteen\PYZus{}performance\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{loan\PYZus{}age}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{sixteen\PYZus{}performance\PYZus{}output}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{months\PYZus{}to\PYZus{}maturity}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PYZbs{}
+    \PY{o}{=} \PY{n}{sixteen\PYZus{}performance\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{months\PYZus{}to\PYZus{}maturity}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n}{sixteen\PYZus{}performance\PYZus{}output}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{min}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{months\PYZus{}to\PYZus{}maturity}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PYZbs{}
+    \PY{o}{=} \PY{n}{sixteen\PYZus{}performance\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{months\PYZus{}to\PYZus{}maturity}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)}
+\PY{n}{sixteen\PYZus{}performance\PYZus{}output}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{months\PYZus{}to\PYZus{}maturity}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PYZbs{}
+    \PY{o}{=} \PY{n}{sixteen\PYZus{}performance\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{months\PYZus{}to\PYZus{}maturity}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{median}\PY{p}{(}\PY{p}{)}
+\PY{n}{sixteen\PYZus{}performance\PYZus{}output}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{max}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{months\PYZus{}to\PYZus{}maturity}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PYZbs{}
+    \PY{o}{=} \PY{n}{sixteen\PYZus{}performance\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{months\PYZus{}to\PYZus{}maturity}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{sixteen\PYZus{}performance\PYZus{}output}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{mean}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{current\PYZus{}interest\PYZus{}rate}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PYZbs{}
+    \PY{o}{=} \PY{n}{sixteen\PYZus{}performance\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{current\PYZus{}interest\PYZus{}rate}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{mean}\PY{p}{(}\PY{p}{)}
+\PY{n}{sixteen\PYZus{}performance\PYZus{}output}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{min}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{current\PYZus{}interest\PYZus{}rate}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PYZbs{}
+    \PY{o}{=} \PY{n}{sixteen\PYZus{}performance\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{current\PYZus{}interest\PYZus{}rate}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{min}\PY{p}{(}\PY{p}{)}
+\PY{n}{sixteen\PYZus{}performance\PYZus{}output}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{median}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{current\PYZus{}interest\PYZus{}rate}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PYZbs{}
+    \PY{o}{=} \PY{n}{sixteen\PYZus{}performance\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{current\PYZus{}interest\PYZus{}rate}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{median}\PY{p}{(}\PY{p}{)}
+\PY{n}{sixteen\PYZus{}performance\PYZus{}output}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{max}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{current\PYZus{}interest\PYZus{}rate}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PYZbs{}
+    \PY{o}{=} \PY{n}{sixteen\PYZus{}performance\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{current\PYZus{}interest\PYZus{}rate}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}\PY{o}{.}\PY{n}{max}\PY{p}{(}\PY{p}{)}
+
+\PY{n}{sixteen\PYZus{}performance\PYZus{}output}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{12}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+                       mean  min  median  max
+loan\_age                 57    0      47  212
+months\_to\_maturity      264    0     292  477
+current\_interest\_rate     4    2       4    8
+\end{Verbatim}
+\end{tcolorbox}
+        
+    Observing the statistical values of each of the variables, we can
+conclude that the distribution of the loan age should be right-skewed,
+which matches our observation in the previous part. The distribution of
+the months to maturity, on the other hand, should be left-skewed.
+
+Because the mean and median of the current interest rate are statiscally
+equal as shown in the data frame above, I would be convinced that the
+distribution of the current interst rate is more balanced. Hence, the
+maximum value (8) is more likely an outlier.
+
+    \hypertarget{factors-for-delinquent-on-payment}{%
+\subsection{Factors for Delinquent on
+Payment}\label{factors-for-delinquent-on-payment}}
+
+The Monthly Performance dataset provides us with a resource to study the
+general characteristics for individuals who tend to fulfill their
+mortgages, as well as to recognize signs that may lead to delinquency in
+paying for a mortgage. In this part, I wish to find some of the factors
+that may highly likely be the sign of a future delinquency according to
+the records provided in the dataset.
+
+In the dataset, there is a column \texttt{current\_lds} that indicates
+the current delinquency status of a mortgage; where provided, the value
+0 stands for a current status or less than 30 days of late payment,
+while any other value other than 0 stands for an over 30-day
+delinquency. I benefitted from the value to categorize all records to
+current mortgages and delinquent ones.
+
+With the binary categorized data, I decided to construct a
+\textbf{decision tree} model on it. The decision tree model is great in
+selecting the more significant features that affect the categorization
+of data; although the model is not necessarily be precisely accurate in
+predicting new data, it is easy for interpretation and visualization,
+and is a powerful tool for feature selection and references.
+
+From the categorized dataset, I selected 200,000 samples to train my
+decision tree model on. In specific, half of the samples (100,000) are
+randomly selected from the pool of records with a current status, while
+the other half are randomly selected from the pool of records with a
+delinquent status. Because of the significant minority of delinquency
+records than the current ones, this is the largest possible sample set I
+can obtain to guarantee a similar quantity for the two target values.
+
+Next, I randomly selected 80\% of the selected sample set to form the
+training data set, while the remaining 20\% serves as the testing data
+set for the model. Below is the training steps for my decision tree
+model.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Decision tree model}
+\PY{c+c1}{\PYZsh{} Categorize the dataset to form the two targets}
+\PY{n}{current\PYZus{}lds\PYZus{}data} \PY{o}{=} \PY{n}{monthly\PYZus{}performance\PYZus{}data}\PY{o}{.}\PY{n}{loc}\PY{p}{[}
+    \PY{p}{(}\PY{n}{monthly\PYZus{}performance\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{current\PYZus{}lds}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{!=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{XX}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{p}{]}
+\PY{n}{positive\PYZus{}data} \PY{o}{=} \PY{n}{current\PYZus{}lds\PYZus{}data}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{current\PYZus{}lds\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{current\PYZus{}lds}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{0}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+\PY{n}{negative\PYZus{}data} \PY{o}{=} \PY{n}{current\PYZus{}lds\PYZus{}data}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{n}{current\PYZus{}lds\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{current\PYZus{}lds}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{!=} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{0}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} Selection of the sample data}
+\PY{n}{n\PYZus{}sample} \PY{o}{=} \PY{l+m+mi}{200000}
+\PY{n}{columns\PYZus{}to\PYZus{}analyse} \PY{o}{=} \PY{p}{[}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{current\PYZus{}actual\PYZus{}upb}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,} 
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{loan\PYZus{}age}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{months\PYZus{}to\PYZus{}maturity}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{modification\PYZus{}flag}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{current\PYZus{}interest\PYZus{}rate}\PY{l+s+s2}{\PYZdq{}}\PY{p}{,}
+    \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{current\PYZus{}deffered\PYZus{}upb}\PY{l+s+s2}{\PYZdq{}}
+\PY{p}{]}
+\PY{n}{sample\PYZus{}data} \PY{o}{=} \PY{n}{pd}\PY{o}{.}\PY{n}{concat}\PY{p}{(}
+    \PY{p}{[}\PY{n}{positive\PYZus{}data}\PY{o}{.}\PY{n}{sample}\PY{p}{(}\PY{n}{n}\PY{o}{=}\PY{n}{n\PYZus{}sample} \PY{o}{/}\PY{o}{/} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{,} \PY{n}{negative\PYZus{}data}\PY{o}{.}\PY{n}{sample}\PY{p}{(}\PY{n}{n}\PY{o}{=}\PY{p}{(}\PY{n}{n\PYZus{}sample} \PY{o}{\PYZhy{}} \PY{n}{n\PYZus{}sample} \PY{o}{/}\PY{o}{/} \PY{l+m+mi}{2}\PY{p}{)}\PY{p}{)}\PY{p}{]}
+\PY{p}{)}\PY{o}{.}\PY{n}{sample}\PY{p}{(}\PY{n}{frac}\PY{o}{=}\PY{l+m+mi}{1}\PY{p}{)}
+\PY{n}{sample\PYZus{}data} \PY{o}{=} \PY{n}{sample\PYZus{}data}\PY{o}{.}\PY{n}{replace}\PY{p}{(}\PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{modification\PYZus{}flag}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{p}{\PYZob{}}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{Y}\PY{l+s+s2}{\PYZdq{}}\PY{p}{:} \PY{l+m+mi}{1}\PY{p}{,} \PY{n}{np}\PY{o}{.}\PY{n}{nan}\PY{p}{:} \PY{l+m+mi}{0}\PY{p}{\PYZcb{}}\PY{p}{\PYZcb{}}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Select the training and test data sets}
+\PY{n}{training\PYZus{}data}\PY{p}{,} \PY{n}{test\PYZus{}data} \PY{o}{=} \PY{n}{sample\PYZus{}data}\PY{p}{[}\PY{p}{:}\PY{n+nb}{int}\PY{p}{(}\PY{l+m+mf}{0.8} \PY{o}{*} \PY{n}{n\PYZus{}sample}\PY{p}{)}\PY{p}{]}\PY{p}{,} \PY{n}{sample\PYZus{}data}\PY{p}{[}\PY{n+nb}{int}\PY{p}{(}\PY{l+m+mf}{0.8} \PY{o}{*} \PY{n}{n\PYZus{}sample}\PY{p}{)}\PY{p}{:}\PY{p}{]}
+\PY{n}{y\PYZus{}train}\PY{p}{,} \PY{n}{x\PYZus{}train} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{training\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{current\PYZus{}lds}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{0}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{,} \PYZbs{}
+    \PY{n}{training\PYZus{}data}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{n}{columns\PYZus{}to\PYZus{}analyse}\PY{p}{]}
+\PY{n}{y\PYZus{}test}\PY{p}{,} \PY{n}{x\PYZus{}test} \PY{o}{=} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{test\PYZus{}data}\PY{p}{[}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{current\PYZus{}lds}\PY{l+s+s2}{\PYZdq{}}\PY{p}{]} \PY{o}{==} \PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{0}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}\PY{p}{,} \PYZbs{}
+    \PY{n}{test\PYZus{}data}\PY{o}{.}\PY{n}{loc}\PY{p}{[}\PY{p}{:}\PY{p}{,} \PY{n}{columns\PYZus{}to\PYZus{}analyse}\PY{p}{]}
+
+\PY{c+c1}{\PYZsh{} Fit the training data to the decision tree}
+\PY{n}{dt} \PY{o}{=} \PY{n}{DecisionTreeClassifier}\PY{p}{(}\PY{n}{criterion}\PY{o}{=}\PY{l+s+s2}{\PYZdq{}}\PY{l+s+s2}{gini}\PY{l+s+s2}{\PYZdq{}}\PY{p}{)}
+\PY{n}{dt}\PY{o}{.}\PY{n}{fit}\PY{p}{(}\PY{n}{x\PYZus{}train}\PY{p}{,} \PY{n}{y\PYZus{}train}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{13}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+DecisionTreeClassifier(ccp\_alpha=0.0, class\_weight=None, criterion='gini',
+                       max\_depth=None, max\_features=None, max\_leaf\_nodes=None,
+                       min\_impurity\_decrease=0.0, min\_impurity\_split=None,
+                       min\_samples\_leaf=1, min\_samples\_split=2,
+                       min\_weight\_fraction\_leaf=0.0, presort='deprecated',
+                       random\_state=None, splitter='best')
+\end{Verbatim}
+\end{tcolorbox}
+        
+    After training the decision tree model over my training data set, I used
+the model to predict my test data set, and evaluates its performance by
+checking its hit rate.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{c+c1}{\PYZsh{} Predict the test data using the trained decision tree}
+\PY{n}{predict\PYZus{}output} \PY{o}{=} \PY{n}{dt}\PY{o}{.}\PY{n}{predict}\PY{p}{(}\PY{n}{x\PYZus{}test}\PY{p}{)}
+
+\PY{c+c1}{\PYZsh{} Compute the accuracy rate for the prediction}
+\PY{n}{corr} \PY{o}{=} \PY{l+m+mi}{0}
+\PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{l+m+mi}{0}\PY{p}{,} \PY{n+nb}{len}\PY{p}{(}\PY{n}{predict\PYZus{}output}\PY{p}{)}\PY{p}{)}\PY{p}{:}
+    \PY{k}{if} \PY{n}{predict\PYZus{}output}\PY{p}{[}\PY{n}{i}\PY{p}{]} \PY{o}{==} \PY{n}{y\PYZus{}test}\PY{p}{[}\PY{n}{i}\PY{p}{]}\PY{p}{:}
+        \PY{n}{corr} \PY{o}{+}\PY{o}{=} \PY{l+m+mi}{1}
+\PY{n}{acc\PYZus{}rate} \PY{o}{=} \PY{n}{corr} \PY{o}{/} \PY{n+nb}{len}\PY{p}{(}\PY{n}{predict\PYZus{}output}\PY{p}{)}
+\PY{n}{acc\PYZus{}rate}
+\end{Verbatim}
+\end{tcolorbox}
+
+            \begin{tcolorbox}[breakable, size=fbox, boxrule=.5pt, pad at break*=1mm, opacityfill=0]
+\prompt{Out}{outcolor}{14}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+0.824675
+\end{Verbatim}
+\end{tcolorbox}
+        
+    As shown above, the model achieved \(\geq\) 80\% accuracy when
+predicting over the test data set. This provides me with the confidence
+in the model, that the features selected by it should be reasonable and
+significant for predicting the delinquency status of a mortgage.
+
+With this is confirmed, I visualize the decision tree in a tree graph.
+Considering the vast branching factor of the model, I visualized only
+the top 3 levels of the tree, which displays the most significant
+factors in the prediction. The graph is demonstrated as seen below.
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{15}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{n}{dot\PYZus{}data} \PY{o}{=} \PY{n}{StringIO}\PY{p}{(}\PY{p}{)}
+\PY{n}{export\PYZus{}graphviz}\PY{p}{(}\PY{n}{dt}\PY{p}{,} 
+                \PY{n}{out\PYZus{}file}\PY{o}{=}\PY{n}{dot\PYZus{}data}\PY{p}{,} 
+                \PY{n}{max\PYZus{}depth}\PY{o}{=}\PY{l+m+mi}{3}\PY{p}{,} 
+                \PY{n}{filled}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,} 
+                \PY{n}{rounded}\PY{o}{=}\PY{k+kc}{True}\PY{p}{,}
+                \PY{n}{feature\PYZus{}names}\PY{o}{=}\PY{n}{columns\PYZus{}to\PYZus{}analyse}\PY{p}{,}
+                \PY{n}{special\PYZus{}characters}\PY{o}{=}\PY{k+kc}{True}\PY{p}{)}
+\PY{n}{graph} \PY{o}{=} \PY{n}{pydotplus}\PY{o}{.}\PY{n}{graph\PYZus{}from\PYZus{}dot\PYZus{}data}\PY{p}{(}\PY{n}{dot\PYZus{}data}\PY{o}{.}\PY{n}{getvalue}\PY{p}{(}\PY{p}{)}\PY{p}{)}  
+\PY{n}{Image}\PY{p}{(}\PY{n}{graph}\PY{o}{.}\PY{n}{create\PYZus{}jpg}\PY{p}{(}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+ 
+            
+\prompt{Out}{outcolor}{15}{}
+    
+    \begin{center}
+    \adjustimage{max size={0.9\linewidth}{0.9\paperheight}}{report_files/report_34_0.jpeg}
+    \end{center}
+    { \hspace*{\fill} \\}
+    
+
+    By observing the tree graph above, we can see that records with a
+current status tends to have, in common, lower interest rate; however,
+if the interest is too low (in specific, lower than 2.5\%), there occurs
+a strong tendency for the mortgage record to develop a delinquency.
+Current mortgage records also tend to have fewer months to maturity,
+while records with more than 30 years to maturity are more likely to be
+delinquent. In addition, records with a delinquent status also tend to
+have a high interest rate in common.
+
+From the observation, we can conclude that the risk of delinquency in
+mortgage payment is higher when:
+
+\begin{itemize}
+\tightlist
+\item
+  Current interest rate is beyond the 2.5\%\textasciitilde5.5\% range,
+  or
+\item
+  Time to legal maturity is over 30 years.
+\end{itemize}
+
+Again, the conclusions are for reference use only, as decision tree is
+not regarded as a precise predicting model. However, the feature
+selection will be useful for conducting further analysis on the problem
+using more precise techniques like linear regression analysis.
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
